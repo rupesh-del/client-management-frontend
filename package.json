@@ -12,6 +12,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.4",
     "react": "^19.0.0",
+    "react-datepicker": "^8.1.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "5.0.1",
