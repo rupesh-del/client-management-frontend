@@ -13,13 +13,15 @@ const InvestorAccount = () => {
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [client, setClient] = useState(null);
+
 
   useEffect(() => {
     if (!id || id === "undefined") {
       setError("Invalid Investor ID");
       return;
     }
-
+  
     const fetchInvestor = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/investors/${id}`);
@@ -31,24 +33,31 @@ const InvestorAccount = () => {
         setError(error.message);
       }
     };
-
+  
     const fetchTransactions = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/transactions/${id}`);
         if (!response.ok) throw new Error("Failed to fetch transactions");
         const data = await response.json();
-        setTransactions(data);
+  
+        // ✅ Ensure transactions is always an array
+        setTransactions(Array.isArray(data.transactions) ? data.transactions : []);
+  
       } catch (error) {
         console.error("Error fetching transactions:", error);
         setError(error.message);
+  
+        // ✅ Ensure transactions is an empty array on error
+        setTransactions([]);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchInvestor();
     fetchTransactions();
   }, [id]);
+  
 
   // ✅ Compute Totals for Deposits & Withdrawals
   const totalDeposits = transactions
@@ -145,24 +154,47 @@ const InvestorAccount = () => {
   
       autoTable(doc, {
         startY: 30,
-        head: [["Date", "Transaction Type", "Deposit ($)", "Withdrawal ($)"]],
+        head: [["Date", "Transaction Type", "Deposit ($)", "Interest ($)", "Withdrawal ($)"]], // ✅ Updated Table Headers
         body: [
           ...transactions.map((txn) => [
             txn.transaction_date.split("T")[0], // ✅ Formats Date Properly (YYYY-MM-DD)
             txn.transaction_type,
             txn.transaction_type === "Deposit" ? `$${parseFloat(txn.amount).toFixed(2)}` : "",
+            txn.transaction_type === "Interest" ? `$${parseFloat(txn.amount).toFixed(2)}` : "", // ✅ Include Interest Transactions
             txn.transaction_type === "Withdrawal" ? `$${parseFloat(txn.amount).toFixed(2)}` : "",
           ]),
           // ✅ Add Totals Row
           [
             { content: "Totals:", colSpan: 2, styles: { fontStyle: "bold" } },
-            { content: `$${totalDeposit.toFixed(2)}`, styles: { fontStyle: "bold" } },
-            { content: `$${totalWithdrawal.toFixed(2)}`, styles: { fontStyle: "bold" } },
+            { content: `$${transactions
+              .filter(t => t.transaction_type === 'Deposit')
+              .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+              .toFixed(2)}`, styles: { fontStyle: "bold" } },
+      
+            { content: `$${transactions
+              .filter(t => t.transaction_type === 'Interest')
+              .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+              .toFixed(2)}`, styles: { fontStyle: "bold" } },
+      
+            { content: `$${transactions
+              .filter(t => t.transaction_type === 'Withdrawal')
+              .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+              .toFixed(2)}`, styles: { fontStyle: "bold" } },
           ],
           // ✅ Add NET TOTAL Row
           [
-            { content: "NET TOTAL:", colSpan: 3, styles: { fontStyle: "bold", textColor: "red" } },
-            { content: `$${netTotal.toFixed(2)}`, styles: { fontStyle: "bold", textColor: "red" } },
+            { content: "NET TOTAL:", colSpan: 4, styles: { fontStyle: "bold", textColor: "red" } },
+            { content: `$${(
+              transactions
+                .filter(t => t.transaction_type === 'Deposit')
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0) +
+              transactions
+                .filter(t => t.transaction_type === 'Interest')
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0) -
+              transactions
+                .filter(t => t.transaction_type === 'Withdrawal')
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+            ).toFixed(2)}`, styles: { fontStyle: "bold", textColor: "red" } },
           ]
         ],
         theme: "grid",
@@ -180,6 +212,7 @@ const InvestorAccount = () => {
           fillColor: "#f2f2f2",
         },
       });
+      
   
       // ✅ Save PDF after table renders
       doc.save(`Investor_Statement_${investor?.name}.pdf`);
@@ -222,43 +255,54 @@ const InvestorAccount = () => {
 {/* TRANSACTIONS TABLE */}
 <h3>Transaction History</h3>
 <div className="transactions-table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Transaction Type</th>
-        <th>Deposit ($)</th>
-        <th>Withdrawal ($)</th>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Transaction Type</th>
+      <th>Deposit ($)</th>
+      <th>Interest ($)</th> {/* ✅ New Column */}
+      <th>Withdrawal ($)</th>
+    </tr>
+  </thead>
+  <tbody>
+  {transactions.length > 0 ? (
+    transactions.map((txn, index) => (
+      <tr key={index}>
+        <td>{new Date(txn.transaction_date).toLocaleDateString()}</td>
+        <td>{txn.transaction_type}</td>
+        <td>{txn.transaction_type === 'Deposit' ? `$${parseFloat(txn.amount).toFixed(2)}` : "-"}</td>
+        <td>{txn.transaction_type === 'Interest' ? `$${parseFloat(txn.amount).toFixed(2)}` : "-"}</td>
+        <td>{txn.transaction_type === 'Withdrawal' ? `$${parseFloat(txn.amount).toFixed(2)}` : "-"}</td>
       </tr>
-    </thead>
-    <tbody>
-      {transactions.length > 0 ? (
-        transactions.map((txn, index) => (
-          <tr key={index}>
-            <td>{txn.transaction_date}</td>
-            <td>{txn.transaction_type}</td>
-            <td>{txn.transaction_type === "Deposit" ? `$${parseFloat(txn.amount).toFixed(2)}` : ""}</td>
-            <td>{txn.transaction_type === "Withdrawal" ? `$${parseFloat(txn.amount).toFixed(2)}` : ""}</td>
-          </tr>
-        ))
-      ) : (
-        <tr>
-          <td colSpan="4" style={{ textAlign: "center" }}>No transactions found.</td>
-        </tr>
-      )}
-    </tbody>
-    <tfoot>
-      <tr className="totals-row">
-        <td colSpan="2"><strong>Totals:</strong></td>
-        <td><strong>${totalDeposits.toFixed(2)}</strong></td>
-        <td><strong>${totalWithdrawals.toFixed(2)}</strong></td>
-      </tr>
-      <tr className="net-total-row">
-        <td colSpan="3"><strong>NET TOTAL:</strong></td>
-        <td><strong>${netTotal.toFixed(2)}</strong></td>
-      </tr>
-    </tfoot>
-  </table>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="5" style={{ textAlign: "center" }}>No transactions found.</td>
+    </tr>
+  )}
+</tbody>
+  {/* ✅ Totals Row */}
+  <tfoot>
+  <tr className="totals-row">
+    <td colSpan="2"><strong>Totals:</strong></td>
+    <td><strong>${transactions.filter(t => t.transaction_type === 'Deposit').reduce((sum, t) => sum + parseFloat(t.amount), 0).toFixed(2)}</strong></td>
+    <td><strong>${transactions.filter(t => t.transaction_type === 'Interest').reduce((sum, t) => sum + parseFloat(t.amount), 0).toFixed(2)}</strong></td>
+    <td><strong>${transactions.filter(t => t.transaction_type === 'Withdrawal').reduce((sum, t) => sum + parseFloat(t.amount), 0).toFixed(2)}</strong></td>
+  </tr>
+  {/* ✅ New Net Total Row */}
+  <tr className="net-total-row">
+    <td colSpan="4"><strong>NET TOTAL:</strong></td>
+    <td><strong>
+      ${(
+        transactions.filter(t => t.transaction_type === 'Deposit').reduce((sum, t) => sum + parseFloat(t.amount), 0) +
+        transactions.filter(t => t.transaction_type === 'Interest').reduce((sum, t) => sum + parseFloat(t.amount), 0) -
+        transactions.filter(t => t.transaction_type === 'Withdrawal').reduce((sum, t) => sum + parseFloat(t.amount), 0)
+      ).toFixed(2)}
+    </strong></td>
+  </tr>
+</tfoot>
+</table>
 </div>
 
 

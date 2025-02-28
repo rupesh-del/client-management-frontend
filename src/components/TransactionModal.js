@@ -41,8 +41,7 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
       transaction_type: transactionType,
       amount: parseFloat(amount),
       transaction_date: transactionDate.toISOString(), // ✅ Convert to ISO String
-    };
-    
+    };    
 
     try {
       const response = await fetch(`${API_BASE_URL}/transactions/process`, {
