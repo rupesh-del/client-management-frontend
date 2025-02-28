@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "autotable": "^1.0.0",
     "axios": "^1.7.9",
-    "jspdf": "^3.0.0",
+    "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
