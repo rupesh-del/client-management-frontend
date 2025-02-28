@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../styles/TransactionModal.css";
 import TransactionSuccessModal from "../components/TransactionSuccessModal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const API_BASE_URL = "https://client-management-backend-8x91.onrender.com"; // ✅ Backend API
+const API_BASE_URL = "https://client-management-backend-8x91.onrender.com";
 
 const TransactionModal = ({ onClose, refreshInvestors }) => {
   const [investors, setInvestors] = useState([]);
@@ -10,6 +12,7 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
   const [selectedInvestorName, setSelectedInvestorName] = useState("");
   const [transactionType, setTransactionType] = useState("Deposit");
   const [amount, setAmount] = useState("");
+  const [transactionDate, setTransactionDate] = useState(new Date()); // ✅ Transaction date
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [latestTransaction, setLatestTransaction] = useState(null);
 
@@ -28,8 +31,8 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
   }, []);
 
   const handleTransaction = async () => {
-    if (!selectedInvestor || !amount || parseFloat(amount) <= 0) {
-      alert("Please select an investor and enter a valid amount.");
+    if (!selectedInvestor || !amount || parseFloat(amount) <= 0 || !transactionDate) {
+      alert("Please complete all transaction details.");
       return;
     }
 
@@ -37,7 +40,9 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
       investor_id: selectedInvestor,
       transaction_type: transactionType,
       amount: parseFloat(amount),
+      transaction_date: transactionDate.toISOString(), // ✅ Convert to ISO String
     };
+    
 
     try {
       const response = await fetch(`${API_BASE_URL}/transactions/process`, {
@@ -53,25 +58,24 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
 
       const transaction = await response.json();
 
-      // ✅ Fetch Updated Investor Details After Transaction
+      // Fetch Updated Investor Details After Transaction
       const investorResponse = await fetch(`${API_BASE_URL}/investors/${selectedInvestor}`);
       const updatedInvestor = await investorResponse.json();
 
-      // ✅ Ensure Account Balance is Correctly Fetched
       const accountBalance = updatedInvestor?.account_balance || transaction.updated_balance || 0;
 
-      // ✅ Store Transaction Details for Receipt Printing
       setLatestTransaction({
         receiptNumber: Math.floor(100000 + Math.random() * 900000),
-        date: new Date().toISOString(),
+        date: transactionDate,
         investorName: selectedInvestorName,
         transactionType: transactionType,
         amount: amount,
-        accountBalance: accountBalance, // ✅ Now correctly retrieved
+        accountBalance: accountBalance,
       });
 
-      setIsSuccessModalOpen(true); // ✅ Show success modal
-      refreshInvestors(); // ✅ Refresh investor balances
+      setIsSuccessModalOpen(true);
+      refreshInvestors();
+
     } catch (error) {
       console.error("❌ Transaction Error:", error);
       alert("Transaction failed.");
@@ -114,19 +118,25 @@ const TransactionModal = ({ onClose, refreshInvestors }) => {
           min="0"
         />
 
+        <label>Transaction Date:</label> {/* ✅ Transaction Date Selector */}
+        <DatePicker
+          selected={transactionDate}
+          onChange={(date) => setTransactionDate(date)}
+          dateFormat="MM/dd/yyyy"
+        />
+
         <div className="modal-buttons">
           <button className="save-btn" onClick={handleTransaction}>✔ Confirm Transaction</button>
           <button className="close-btn" onClick={onClose}>❌ Close</button>
         </div>
       </div>
 
-      {/* ✅ Show Transaction Success Modal After a Successful Transaction */}
       {isSuccessModalOpen && (
         <TransactionSuccessModal
           transaction={latestTransaction}
           onClose={() => {
             setIsSuccessModalOpen(false);
-            onClose(); // Close the main transaction modal
+            onClose();
           }}
         />
       )}
