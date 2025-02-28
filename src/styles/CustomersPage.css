@@ -1,0 +1,78 @@
+.customers-container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .new-customer-btn {
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .customers-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .customers-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .customers-table th, .customers-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .customers-table th {
+    background-color: #004d00;
+    color: white;
+  }
+  
+  .edit-btn {
+    background-color: blue;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .delete-btn {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  .back-btn {
+    background-color: darkgreen;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .back-btn:hover {
+    background-color: green;
+  }
+  

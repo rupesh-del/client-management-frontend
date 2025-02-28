@@ -1,0 +1,122 @@
+/* General Page Styling */
+.ferry-pass-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background to match the theme */
+}
+
+/* Search Bar and Button */
+.ferry-pass-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ferry-pass-header input {
+    padding: 8px;
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.new-booking-btn {
+    background-color: #28a745; /* Green theme */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.new-booking-btn:hover {
+    background-color: #218838;
+}
+
+/* Navigation Tabs */
+.ferry-tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.ferry-tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.ferry-tab:hover,
+.ferry-tab.active {
+    border-bottom: 3px solid #007bff;
+    color: #0056b3;
+}
+
+/* Tables */
+.ferry-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ferry-table th,
+.ferry-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.ferry-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.ferry-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Dropdown Styling */
+.ferry-dropdown {
+    padding: 6px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.ferry-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Action Buttons */
+.action-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    color: black;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}

@@ -1,0 +1,65 @@
+/* investorAccount.css */
+.investor-account {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #028a0f;
+    margin-bottom: 15px;
+  }
+  
+  .account-details {
+    text-align: left;
+    padding: 15px;
+  }
+  
+  .account-details p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .account-details strong {
+    color: #005b4f;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .back-btn, .delete-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .back-btn {
+    background-color: #005b4f;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .back-btn:hover {
+    background-color: #004238;
+  }
+  
+  .delete-btn:hover {
+    background-color: #b71c1c;
+  }
+  

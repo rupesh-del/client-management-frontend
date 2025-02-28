@@ -1,0 +1,32 @@
+.header {
+  background-color: #004d40;
+  color: white;
+  text-align: center;
+  padding: 8px 0; /* Reduce padding to make the header smaller */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  font-size: 16px; /* Reduce overall text size */
+  height: 50px; /* Set a fixed height to keep it compact */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Adjust Title */
+.header h1 {
+  margin: 0;
+  font-size: 18px; /* Reduce title font size */
+}
+
+/* Adjust Subtitle */
+.header p {
+  margin: 2px 0 0 0;
+  font-size: 12px; /* Make the date smaller */
+}
+
+/* Ensure content starts below the header */
+.page-container {
+  padding-top: 60px; /* Pushes content below the fixed header */
+}
