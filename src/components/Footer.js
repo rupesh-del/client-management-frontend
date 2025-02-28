@@ -17,8 +17,9 @@ const styles = {
     backgroundColor: "#004d40",
     color: "#fff",
     fontSize: "14px",
-    position: "absolute",
+    position: "fixed", // ✅ Ensures footer stays at the bottom
     bottom: "0",
+    left: "0",
     width: "100%",
   },
 };

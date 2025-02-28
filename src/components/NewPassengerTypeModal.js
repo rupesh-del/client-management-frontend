@@ -16,7 +16,7 @@ const NewPassengerTypeModal = ({ isOpen, onClose, onSave }) => {
 
     setLoading(true);
 
-    const newType = { name, cost: parseFloat(cost) };
+    const newType = { name: name.trim(), cost: parseFloat(cost) };
 
     try {
       const response = await fetch("https://client-management-backend-8x91.onrender.com/passenger-types", {
