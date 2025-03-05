@@ -33,6 +33,10 @@ const Home = () => {
         <a href="https://receivables-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
           <button style={styles.receivablesButton}>RCS RECEIVABLES</button>
         </a>
+          {/* ✅ "ADMIN APP" Button */}
+  <a href="https://adminappfrontend.onrender.com" target="_blank" rel="noopener noreferrer">
+    <button style={styles.adminButton}>ADMIN APP</button>
+  </a>
 
         <Footer />
       </div>
@@ -62,8 +66,11 @@ const styles = {
     objectFit: "contain",
   },
   textContainer: {
-    flex: 1,
     textAlign: "center",
+    display: "flex",
+    flexDirection: "column", // ✅ Forces buttons to stack vertically
+    alignItems: "center", // ✅ Centers buttons horizontally
+    gap: "10px", // ✅ Adds space between buttons
   },
   heading: {
     color: "#004d40",
@@ -71,15 +78,24 @@ const styles = {
     fontWeight: "bold",
   },
   receivablesButton: {
-    backgroundColor: "#028a0f",
-    color: "#fff",
-    padding: "10px 20px",
-    fontSize: "16px",
+    backgroundColor: "#0a3d2e",
+    color: "white",
     border: "none",
-    borderRadius: "5px",
+    padding: "12px 20px",
+    fontSize: "16px",
     cursor: "pointer",
-    marginTop: "20px",
-    textDecoration: "none",
+    borderRadius: "5px",
+    width: "200px", // ✅ Keeps buttons same width
+  },
+  adminButton: {
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    padding: "12px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    borderRadius: "5px",
+    width: "200px", // ✅ Keeps buttons same width
   },
 };
 
