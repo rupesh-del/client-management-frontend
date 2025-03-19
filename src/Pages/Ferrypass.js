@@ -121,11 +121,12 @@ const FerryPass = () => {
 
       {/* 🏷️ Navigation Tabs */}
       <div className="nav-tabs">
-        <button onClick={() => navigate("/customers")}>Customers</button>
-        <button onClick={() => navigate("/vehicle-types")}>Vehicle Types</button>
-        <button onClick={() => navigate("/vehicle-numbers")}>Vehicle Numbers</button>
-        <button onClick={() => navigate("/passenger-types")}>Passenger Types</button>
-      </div>
+  <button className="nav-tab" onClick={() => navigate("/customers")}>Customers</button>
+  <button className="nav-tab" onClick={() => navigate("/vehicle-types")}>Vehicle Types</button>
+  <button className="nav-tab" onClick={() => navigate("/vehicle-numbers")}>Vehicle Numbers</button>
+  <button className="nav-tab" onClick={() => navigate("/passenger-types")}>Passenger Types</button>
+</div>
+
 
       {/* 📋 Main Ferry Pass Table */}
       <div className="ferry-pass-table">

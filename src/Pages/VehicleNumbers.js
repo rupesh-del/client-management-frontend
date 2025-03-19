@@ -41,9 +41,9 @@ const VehicleNumbers = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
-        <button onClick={() => navigate("/ferrypass")} className="back-button">
-          ← Back to FerryPass
-        </button>
+      <button className="back-btn" onClick={() => navigate("/ferrypass")}>
+        ⬅ Back to FerryPass
+      </button>
       </div>
 
       <table>
