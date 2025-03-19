@@ -6,29 +6,27 @@ import NewBookingModal from "../components/NewBookingModal";
 
 const API_BASE_URL = "https://client-management-backend-8x91.onrender.com";
 
+
 const FerryPass = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [vehicleTypes, setVehicleTypes] = useState([]); // Store vehicle types
-
+  const fetchBookings = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/bookings`);
+      setBookings(response.data); // ✅ Updates the booking list
+    } catch (error) {
+      console.error("❌ Error fetching bookings:", error);
+    }
+  };
+  
   // Fetch bookings when the component mounts
   useEffect(() => {
     fetchBookings();
   }, []);
 
-  const fetchBookings = async () => {
-    try {
-      const bookingsResponse = await axios.get(`${API_BASE_URL}/bookings`);
-      const vehicleTypesResponse = await axios.get(`${API_BASE_URL}/vehicle-types`); // Fetch vehicle types
-  
-      setBookings(bookingsResponse.data);
-      setVehicleTypes(vehicleTypesResponse.data); // Store vehicle types
-    } catch (error) {
-      console.error("❌ Error fetching data:", error);
-    }
-  };
   // Handle search input
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -221,10 +219,11 @@ const FerryPass = () => {
       {/* 🎉 New Booking Modal Integration */}
       {isModalOpen && (
         <NewBookingModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleNewBookingSave}
-        />
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  fetchBookings={fetchBookings} // ✅ Ensures the table updates after booking
+/>
+
       )}
     </div>
   );

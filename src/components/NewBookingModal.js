@@ -4,7 +4,8 @@ import "../styles/NewBookingModal.css";
 
 const API_BASE_URL = "https://client-management-backend-8x91.onrender.com";
 
-const NewBookingModal = ({ isOpen, onClose }) => {
+const NewBookingModal = ({ isOpen, onClose, fetchBookings }) => {
+
   const [customers, setCustomers] = useState([]);
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [passengerTypes, setPassengerTypes] = useState([]);
@@ -20,7 +21,7 @@ const NewBookingModal = ({ isOpen, onClose }) => {
   const [travelDate, setTravelDate] = useState("");
   const [adminCharge, setAdminCharge] = useState(false);
   const [netCost, setNetCost] = useState(120); // Starts with mandatory charge
-
+  
   // Fetch data when modal opens
   useEffect(() => {
     if (isOpen) {
@@ -115,8 +116,6 @@ const NewBookingModal = ({ isOpen, onClose }) => {
   }, [selectedVehicleType, passengerCounts, mode, adminCharge]);
   
   
-
-  // Submit Booking
   const handleSubmit = async () => {
     const bookingData = {
       customer: selectedCustomer,
@@ -130,23 +129,51 @@ const NewBookingModal = ({ isOpen, onClose }) => {
       adminCharge: adminCharge ? 120 : 0,
       netCost,
     };
-
+  
     try {
-      await axios.post(`${API_BASE_URL}/bookings`, bookingData);
-
-    // ✅ Store the vehicle number and type in "vehicle_numbers" table
-    await axios.post(`${API_BASE_URL}/vehicle-numbers`, {
-      vehicleNumber,
-      vehicleType: selectedVehicleType,
-    });
-    
-      alert("Booking successfully created!");
-      onClose();
+      console.log("🚀 Sending Booking Data:", bookingData);
+  
+      // ✅ First, attempt to create the booking
+      const bookingResponse = await axios.post(`${API_BASE_URL}/bookings`, bookingData);
+  
+      if (bookingResponse.status === 201 || bookingResponse.status === 200) {
+        console.log("✅ Booking Created Successfully", bookingResponse.data);
+      } else {
+        throw new Error("Unexpected response status from bookings API");
+      }
+  
+      // ✅ Now, store the vehicle number and type in the vehicle_numbers table
+      try {
+        const vehicleResponse = await axios.post(`${API_BASE_URL}/vehicle-numbers`, {
+          vehicleNumber,
+          vehicleType: selectedVehicleType,
+        });
+  
+        if (vehicleResponse.status === 201 || vehicleResponse.status === 200) {
+          console.log("✅ Vehicle Number Saved Successfully", vehicleResponse.data);
+        } else {
+          console.warn("⚠ Vehicle number save failed, but booking was created.");
+        }
+      } catch (vehicleError) {
+        console.warn("⚠ Vehicle number API failed, but booking was created.", vehicleError);
+      }
+  
+      alert("✅ Booking successfully created!");
+  
+      fetchBookings(); // ✅ Ensure bookings update immediately
+      onClose(); // ✅ Close modal after successful submission
     } catch (error) {
-      console.error("❌ Error submitting booking:", error);
-      alert("Failed to create booking");
+      console.error("❌ Error submitting booking:", error.response?.data || error.message);
+  
+      if (error.response?.status === 500) {
+        alert("⚠ Booking might have been created. Try refreshing.");
+        fetchBookings(); // ✅ Try reloading bookings
+      } else {
+        alert("❌ Failed to create booking.");
+      }
     }
   };
+  
 
   return isOpen ? (
     <div className="modal-overlay">
@@ -220,14 +247,16 @@ const NewBookingModal = ({ isOpen, onClose }) => {
     onChange={(e) => setTravelDate(e.target.value)} 
   />
 </div>
-{/*Admin Charge */}
-<div className="form-group">
-  <input 
-    type="checkbox" 
-    checked={adminCharge} 
-    onChange={() => setAdminCharge(!adminCharge)} 
-  />
-  <label> Include Admin Charge ($120) </label>
+{/* Admin Charge (Aligned Checkbox) */}
+<div className="form-group checkbox-container">
+  <label>
+    <input 
+      type="checkbox" 
+      checked={adminCharge} 
+      onChange={() => setAdminCharge(!adminCharge)} 
+    />
+    Include Admin Charge ($120)
+  </label>
 </div>
 
           {/* Mode Selection */}

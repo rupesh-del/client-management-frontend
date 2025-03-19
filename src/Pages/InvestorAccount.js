@@ -59,6 +59,29 @@ const InvestorAccount = () => {
   }, [id]);
   
 
+  const handleStatusChange = async (newStatus) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/investors/${id}/status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+  
+      if (!response.ok) throw new Error("Failed to update status");
+  
+      const updatedInvestor = await response.json();
+      setInvestor(updatedInvestor); // ✅ Update UI immediately
+      alert("✅ Status updated successfully!");
+    } catch (error) {
+      console.error("❌ Error updating status:", error);
+      alert("❌ Failed to update status. Please try again.");
+    }
+  };
+  
+  
+
   // ✅ Compute Totals for Deposits & Withdrawals
   const totalDeposits = transactions
     .filter((txn) => txn.transaction_type === "Deposit")
@@ -244,7 +267,18 @@ const InvestorAccount = () => {
 
       <div className="account-details">
         <p><strong>Account Type:</strong> {investor?.account_type}</p>
-        <p><strong>Status:</strong> {investor?.status}</p>
+        <div className="detail-box">
+  <label>Status:</label>
+  <select
+    name="status"
+    value={investor?.status || "Active"}
+    onChange={(e) => handleStatusChange(e.target.value)}
+  >
+    <option value="Active">Active</option>
+    <option value="Inactive">Inactive</option>
+  </select>
+</div>
+
         <p><strong>Investment Term:</strong> {investor?.investment_term}</p>
         <p><strong>ROI (%):</strong> {parseFloat(investor?.roi || 0).toFixed(2)}%</p>
         <p><strong>Current Balance:</strong> ${parseFloat(investor?.current_balance || 0).toFixed(2)}</p>
@@ -309,7 +343,7 @@ const InvestorAccount = () => {
       {/* BUTTONS */}
       <div className="buttons-container">
         <button onClick={() => navigate("/investors")} className="back-btn">🔙 Back to Investors</button>
-        <button onClick={generateStatement} className="statement-btn">📄 Generate Statement</button>
+        <button onClick={generateStatement} className="generate-statement-btn">📄 Generate Statement</button>
         <button onClick={handleDelete} className="delete-btn">🗑 Delete Investor</button>
       </div>
     </div>

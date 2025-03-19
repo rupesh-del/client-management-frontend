@@ -62,4 +62,31 @@
   .delete-btn:hover {
     background-color: #b71c1c;
   }
-  
+  /* ✅ Stylish Generate Statement Button */
+.generate-statement-btn {
+  background-color: rgb(30, 4, 102);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border: 2px solid black;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ✅ Button Hover Effect */
+.generate-statement-btn:hover {
+  background-color: #007bff; /* Same blue as the "New Investor" button */
+  color: rgb(19, 16, 201);
+  border-color: #007bff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Add an Icon Style */
+.generate-statement-btn::before {
+  content: "";
+  font-size: 1rem;
+}

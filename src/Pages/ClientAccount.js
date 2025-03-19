@@ -166,191 +166,189 @@ const handleSaveRenewal = async () => {
 };
 
 
-  return (
-    <div className="client-account">
-      <h2>Client Account</h2>
+return (
+  <div className="client-account">
+    <h2 className="insurance-heading">Client Account</h2>
 
-      {client ? (
-        <div className="client-details">
-          <div className="client-info">
-          <div className="grid-container">
-  <div className="grid-item">
-    <label>Client Name:</label>
-    {isEditing ? (
-      <input type="text" name="name" value={updatedClient.name} onChange={handleEditChange} />
-    ) : (
-      <p>{client.name}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Policy Number:</label>
-    {isEditing ? (
-      <input type="text" name="policy_number" value={updatedClient.policy_number} onChange={handleEditChange} />
-    ) : (
-      <p>{client.policy_number}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Vehicle Number:</label>
-    {isEditing ? (
-      <input type="text" name="vehicle_number" value={updatedClient.vehicle_number} onChange={handleEditChange} />
-    ) : (
-      <p>{client.vehicle_number}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Premium Paid:</label>
-    {isEditing ? (
-      <select name="premium_paid" value={updatedClient.premium_paid} onChange={handleEditChange}>
-        <option value="No">No</option>
-        <option value="Yes">Yes</option>
-      </select>
-    ) : (
-      <p>{client.premium_paid}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Paid to Apex:</label>
-    {isEditing ? (
-      <select name="paid_to_apex" value={updatedClient.paid_to_apex} onChange={handleEditChange}>
-        <option value="No">No</option>
-        <option value="Yes">Yes</option>
-      </select>
-    ) : (
-      <p>{client.paid_to_apex}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Payment Number:</label>
-    {isEditing ? (
-      <input type="text" name="payment_number" value={updatedClient.payment_number} onChange={handleEditChange} />
-    ) : (
-      <p>{client.payment_number || "N/A"}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Premium:</label>
-    {isEditing ? (
-      <input type="text" name="premium" value={updatedClient.premium} onChange={handleEditChange} />
-    ) : (
-      <p>{client.premium || "N/A"}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Insurer:</label>
-    {isEditing ? (
-      <input type="text" name="insurer" value={updatedClient.insurer} onChange={handleEditChange} />
-    ) : (
-      <p>{client.insurer}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Policy Type:</label>
-    {isEditing ? (
-      <select name="policy_type" value={updatedClient.policy_type} onChange={handleEditChange}>
-        <option value="Motor">Motor</option>
-        <option value="Fire">Fire</option>
-        <option value="Life">Life</option>
-      </select>
-    ) : (
-      <p>{client.policy_type || "N/A"}</p>
-    )}
-  </div>
-
-  <div className="grid-item">
-    <label>Date of Next Renewal:</label>
-    {isEditing ? (
-      <input type="date" name="renewal_date" value={updatedClient.renewal_date} onChange={handleEditChange} />
-    ) : (
-      <p>{client.renewal_date}</p>
-    )}
-  </div>
-
-  <div className="grid-item full-width">
-    <label>Policy Document:</label>
-    {client.policy_document ? (
-      <p>
-        <a href={client.policy_document} target="_blank" rel="noopener noreferrer">
-          View Policy Document
-        </a>
-      </p>
-    ) : (
-      <p>No document uploaded</p>
-    )}
-  </div>
-
-  <div className="grid-item full-width">
-    <label>Additional Attachments:</label>
-    {updatedClient.additionalAttachments && updatedClient.additionalAttachments.length > 0 ? (
-      <ul>
-        {updatedClient.additionalAttachments.map((attachment, index) => (
-          <li key={index}>
-            <a href={attachment} target="_blank" rel="noopener noreferrer">
-              View Attachment {index + 1}
-            </a>
-            <button onClick={() => handleDeleteAttachment(attachment)}>🗑 Delete</button>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>No attachments</p>
-    )}
-    <input type="file" onChange={handleFileChange} />
-  </div>
-</div>
-            {/* Edit Confirmation */}
+    {client ? (
+      <div className="client-details">
+        <div className="insurance-details-grid">
+          
+          <div className="detail-box">
+            <label>Client Name:</label>
             {isEditing ? (
-              <button onClick={handleSaveChanges}>✔ Confirm Changes</button>
+              <input type="text" name="name" value={updatedClient.name} onChange={handleEditChange} />
             ) : (
-              <button onClick={() => setIsEditing(true)}>✏ Edit Details</button>
+              <p>{client.name}</p>
             )}
-
-            {/* Delete Client Button */}
-            <button className="delete-client-btn" onClick={handleDeleteClient}>🗑 Delete Client</button>
           </div>
-          {/* Renewal Button */}
-<button onClick={() => setIsRenewalModalOpen(true)}>➕ Add Renewal</button>
 
-<RenewalModal
-  isOpen={isRenewalModalOpen}
-  onClose={() => setIsRenewalModalOpen(false)}
-  onSave={handleSaveRenewal}
-  clientId={clientId} // ✅ Pass clientId for backend API
-/>
+          <div className="detail-box">
+            <label>Policy Number:</label>
+            {isEditing ? (
+              <input type="text" name="policy_number" value={updatedClient.policy_number} onChange={handleEditChange} />
+            ) : (
+              <p>{client.policy_number}</p>
+            )}
+          </div>
 
-{/* List of Renewals */}
-<h3>Renewal History</h3>
-{renewals.length > 0 ? (
-  <ul>
-    {renewals.map((renewal, index) => (
-      <li key={index}>
-        <p><strong>Renewal Date:</strong> {new Date(renewal.renewal_date).toLocaleDateString()}</p>
-        <p><strong>Next Renewal Date:</strong> {new Date(renewal.next_renewal_date).toLocaleDateString()}</p>
-        <a href={renewal.policy_document} target="_blank" rel="noopener noreferrer">
-          📄 View Policy Document
-        </a>
-      </li>
-    ))}
-  </ul>
-) : (
-  <p>No renewals found.</p>
-)}
+          <div className="detail-box">
+            <label>Vehicle Number:</label>
+            {isEditing ? (
+              <input type="text" name="vehicle_number" value={updatedClient.vehicle_number} onChange={handleEditChange} />
+            ) : (
+              <p>{client.vehicle_number}</p>
+            )}
+          </div>
 
+          <div className="detail-box">
+            <label>Premium Paid:</label>
+            {isEditing ? (
+              <select name="premium_paid" value={updatedClient.premium_paid} onChange={handleEditChange}>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            ) : (
+              <p>{client.premium_paid}</p>
+            )}
+          </div>
 
+          <div className="detail-box">
+            <label>Paid to Apex:</label>
+            {isEditing ? (
+              <select name="paid_to_apex" value={updatedClient.paid_to_apex} onChange={handleEditChange}>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            ) : (
+              <p>{client.paid_to_apex}</p>
+            )}
+          </div>
+
+          <div className="detail-box">
+            <label>Payment Number:</label>
+            {isEditing ? (
+              <input type="text" name="payment_number" value={updatedClient.payment_number} onChange={handleEditChange} />
+            ) : (
+              <p>{client.payment_number || "N/A"}</p>
+            )}
+          </div>
+
+          <div className="detail-box">
+            <label>Premium:</label>
+            {isEditing ? (
+              <input type="text" name="premium" value={updatedClient.premium} onChange={handleEditChange} />
+            ) : (
+              <p>${client.premium || "N/A"}</p>
+            )}
+          </div>
+
+          <div className="detail-box">
+            <label>Insurer:</label>
+            {isEditing ? (
+              <input type="text" name="insurer" value={updatedClient.insurer} onChange={handleEditChange} />
+            ) : (
+              <p>{client.insurer}</p>
+            )}
+          </div>
+
+          <div className="detail-box">
+            <label>Policy Type:</label>
+            {isEditing ? (
+              <select name="policy_type" value={updatedClient.policy_type} onChange={handleEditChange}>
+                <option value="Motor">Motor</option>
+                <option value="Fire">Fire</option>
+                <option value="Life">Life</option>
+              </select>
+            ) : (
+              <p>{client.policy_type || "N/A"}</p>
+            )}
+          </div>
+
+          <div className="detail-box full-width">
+            <label>Date of Next Renewal:</label>
+            {isEditing ? (
+              <input type="date" name="renewal_date" value={updatedClient.renewal_date} onChange={handleEditChange} />
+            ) : (
+              <p>{client.renewal_date}</p>
+            )}
+          </div>
+
+          <div className="detail-box full-width">
+            <label>Policy Document:</label>
+            {client.policy_document ? (
+              <p>
+                <a href={client.policy_document} target="_blank" rel="noopener noreferrer">
+                  View Policy Document
+                </a>
+              </p>
+            ) : (
+              <p>No document uploaded</p>
+            )}
+          </div>
+
+          <div className="detail-box full-width">
+            <label>Additional Attachments:</label>
+            {updatedClient.additionalAttachments && updatedClient.additionalAttachments.length > 0 ? (
+              <ul>
+                {updatedClient.additionalAttachments.map((attachment, index) => (
+                  <li key={index}>
+                    <a href={attachment} target="_blank" rel="noopener noreferrer">
+                      View Attachment {index + 1}
+                    </a>
+                    <button onClick={() => handleDeleteAttachment(attachment)}>🗑 Delete</button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No attachments</p>
+            )}
+            <input type="file" onChange={handleFileChange} />
+          </div>
         </div>
-      ) : (
-        <p>Loading client details...</p>
-      )}
-    </div>
-  );
-};
 
+        {/* Edit Confirmation */}
+        {isEditing ? (
+          <button className="save-button" onClick={handleSaveChanges}>✔ Confirm Changes</button>
+        ) : (
+          <button className="edit-button" onClick={() => setIsEditing(true)}>✏ Edit Details</button>
+        )}
+
+        {/* Delete Client Button */}
+        <button className="delete-client-btn" onClick={handleDeleteClient}>🗑 Delete Client</button>
+
+        {/* Renewal Button */}
+        <button onClick={() => setIsRenewalModalOpen(true)}>➕ Add Renewal</button>
+
+        <RenewalModal
+          isOpen={isRenewalModalOpen}
+          onClose={() => setIsRenewalModalOpen(false)}
+          onSave={handleSaveRenewal}
+          clientId={clientId} // ✅ Pass clientId for backend API
+        />
+
+        {/* List of Renewals */}
+        <h3>Renewal History</h3>
+        {renewals.length > 0 ? (
+          <ul>
+            {renewals.map((renewal, index) => (
+              <li key={index}>
+                <p><strong>Renewal Date:</strong> {new Date(renewal.renewal_date).toLocaleDateString()}</p>
+                <p><strong>Next Renewal Date:</strong> {new Date(renewal.next_renewal_date).toLocaleDateString()}</p>
+                <a href={renewal.policy_document} target="_blank" rel="noopener noreferrer">
+                  📄 View Policy Document
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No renewals found.</p>
+        )}
+      </div>
+    ) : (
+      <p>Loading client details...</p>
+    )}
+  </div>
+);
+};
 export default ClientAccount;

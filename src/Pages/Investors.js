@@ -58,7 +58,7 @@ const Investors = () => {
         <button className="new-investor-btn" onClick={() => setIsNewInvestorModalOpen(true)}>
           ➕ New Investor
         </button>
-        <button className="transaction-btn" onClick={() => setIsTransactionModalOpen(true)}>
+        <button className="process-transaction-btn" onClick={() => setIsTransactionModalOpen(true)}>
           💰 Process Transaction
         </button>
       </div>

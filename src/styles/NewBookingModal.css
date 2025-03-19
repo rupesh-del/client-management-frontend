@@ -31,3 +31,15 @@
   padding: 8px 12px;
   cursor: pointer;
 }
+/* ✅ Fix checkbox alignment */
+.checkbox-container {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap: 8px; /* Adds spacing between checkbox and label */
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 16px; /* Ensures consistent size */
+  height: 16px;
+  cursor: pointer;
+}

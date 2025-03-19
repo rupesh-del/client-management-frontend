@@ -1,130 +1,71 @@
-/* Main Client Account Container */
+/* ✅ Main Container Styling */
 .client-account {
-  width: 90%;
-  margin: 80px auto; /* Adds more space at the top */
-  padding-bottom: 120px; /* Ensures footer does not overlap content */
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
-h2 {
+/* ✅ Heading Styling */
+.insurance-heading {
   text-align: center;
-  color: #004d40;
+  color: green;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-/* Client Details Box */
-.client-details {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Labels & Inputs */
-.client-info label {
-  display: block;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.client-info p, 
-.client-info input, 
-.client-info select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Buttons */
-button {
-  background-color: #004d40;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-button:hover {
-  background-color: #00796b;
-}
-
-/* List Styling */
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-}
-
-ul li button {
-  background-color: red;
-  color: white;
-  padding: 5px;
-}
-
-/* Grid Layout (3 fields per row) */
-.grid-container {
+/* ✅ Grid Layout */
+.insurance-details-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
 }
 
-.grid-item {
-  display: flex;
-  flex-direction: column;
+/* ✅ Individual Field Boxes */
+.detail-box {
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
 }
 
-.grid-item label {
-  font-weight: bold;
-}
-
-.grid-item input, 
-.grid-item select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Full-width sections (e.g., Policy Document, Attachments) */
-.full-width {
+/* ✅ Full Width Box for Single Fields */
+.detail-box.full-width {
   grid-column: span 3;
 }
 
-/* Footer Styling */
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #004d40; /* Dark Green */
-  color: white;
-  text-align: center;
-  padding: 12px 0;
+/* ✅ Styling for Labels */
+.detail-box label {
+  color: green;
   font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ✅ Buttons */
+.edit-button, .save-button, .delete-client-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  border: none;
   cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
-.footer:hover {
-  background-color: #00332e; /* Darker Green on Hover */
+.edit-button {
+  background-color: blue;
+  color: white;
 }
 
-/* Page Structure */
-.page-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.save-button {
+  background-color: green;
+  color: white;
 }
 
-.content {
-  flex-grow: 1; /* Pushes content so footer stays at the bottom */
+.delete-client-btn {
+  background-color: red;
+  color: white;
 }
