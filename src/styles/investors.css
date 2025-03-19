@@ -95,6 +95,6 @@
 
 /* ✅ Add an Icon Style */
 .process-transaction-btn::before {
-  content: "💰";
+  content: "";
   font-size: 1rem;
 }

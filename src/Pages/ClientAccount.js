@@ -307,18 +307,20 @@ return (
           </div>
         </div>
 
-        {/* Edit Confirmation */}
-        {isEditing ? (
-          <button className="save-button" onClick={handleSaveChanges}>✔ Confirm Changes</button>
-        ) : (
-          <button className="edit-button" onClick={() => setIsEditing(true)}>✏ Edit Details</button>
-        )}
+        <div className="button-group">
+  {/* Edit Confirmation */}
+  {isEditing ? (
+    <button className="save-button" onClick={handleSaveChanges}>✔ Confirm Changes</button>
+  ) : (
+    <button className="edit-button" onClick={() => setIsEditing(true)}>✏ Edit Details</button>
+  )}
 
-        {/* Delete Client Button */}
-        <button className="delete-client-btn" onClick={handleDeleteClient}>🗑 Delete Client</button>
+  {/* Delete Client Button */}
+  <button className="delete-client-btn" onClick={handleDeleteClient}>🗑 Delete Client</button>
 
-        {/* Renewal Button */}
-        <button onClick={() => setIsRenewalModalOpen(true)}>➕ Add Renewal</button>
+  {/* Renewal Button */}
+  <button className="add-renewal-btn" onClick={() => setIsRenewalModalOpen(true)}>➕ Add Renewal</button>
+</div>
 
         <RenewalModal
           isOpen={isRenewalModalOpen}

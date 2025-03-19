@@ -219,19 +219,23 @@ const NewBookingModal = ({ isOpen, onClose, fetchBookings }) => {
   passengerTypes.map((passenger) => (
     <div key={passenger.id} className="passenger-row">
       <span>{passenger.name}</span> {/* Fix: Use name instead of type */}
-      <button 
-        className="counter-btn" 
-        onClick={() => handlePassengerCountChange(passenger.name, Math.max(0, (passengerCounts[passenger.name] || 0) - 1))}
-      >
-        -
-      </button>
-      <span>{passengerCounts[passenger.name] || 0}</span>
-      <button 
-        className="counter-btn" 
-        onClick={() => handlePassengerCountChange(passenger.name, (passengerCounts[passenger.name] || 0) + 1)}
-      >
-        +
-      </button>
+      
+      <div className="counter-group">
+  <button 
+    className="counter-btn decrease-btn" 
+    onClick={() => handlePassengerCountChange(passenger.name, Math.max(0, (passengerCounts[passenger.name] || 0) - 1))}
+  >
+    ➖
+  </button>
+  <span className="counter-value">{passengerCounts[passenger.name] || 0}</span>
+  <button 
+    className="counter-btn increase-btn" 
+    onClick={() => handlePassengerCountChange(passenger.name, (passengerCounts[passenger.name] || 0) + 1)}
+  >
+    ➕
+  </button>
+</div>
+
     </div>
   ))
   ) : (
@@ -271,8 +275,11 @@ const NewBookingModal = ({ isOpen, onClose, fetchBookings }) => {
           <h3>Net Cost: ${netCost}</h3>
 
           {/* Submit & Cancel */}
-          <button onClick={handleSubmit} className="submit-btn">Submit</button>
-          <button onClick={onClose} className="cancel-btn">Cancel</button>
+          <div className="button-group">
+  <button onClick={handleSubmit} className="submit-btn">✅ Submit</button>
+  <button onClick={onClose} className="cancel-btn">❌ Cancel</button>
+</div>
+
         </div>
       </div>
     </div>

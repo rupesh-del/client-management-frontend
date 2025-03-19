@@ -69,3 +69,41 @@
   background-color: red;
   color: white;
 }
+/* ✅ Stylish Add Renewal Button */
+.add-renewal-btn {
+  background-color: #28a745; /* Same green as success buttons */
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ✅ Button Hover Effect */
+.add-renewal-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Icon Styling */
+.add-renewal-btn::before {
+  content: "";
+  font-size: 1rem;
+}
+/* ✅ Grouped Buttons with Proper Spacing */
+.button-group {
+  display: flex;
+  gap: 12px; /* Adds space between buttons */
+  margin-top: 15px; /* Adds spacing from content above */
+}
+
+/* ✅ Ensure Buttons Have Consistent Size */
+.button-group button {
+  padding: 10px 15px;
+  font-size: 14px;
+}
