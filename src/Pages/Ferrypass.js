@@ -22,6 +22,16 @@ const FerryPass = () => {
     }
   };
   
+  const fetchVehicleTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/vehicle-types`);
+      setVehicleTypes(response.data); // Store vehicle types in state
+    } catch (error) {
+      console.error("❌ Error fetching vehicle types:", error);
+    }
+  };
+  
+
   // Fetch bookings when the component mounts
   useEffect(() => {
     fetchBookings();
@@ -37,6 +47,12 @@ const FerryPass = () => {
     await fetchBookings(); // Refresh table after a new booking is added
   };
 
+  // Fetch both bookings and vehicle types when the component mounts
+  useEffect(() => {
+    fetchBookings();
+    fetchVehicleTypes(); // Fetch vehicle types
+  }, []);
+  
   // Handle Status Change (Booking)
   const handleBookingStatusChange = async (id, value) => {
     try {
